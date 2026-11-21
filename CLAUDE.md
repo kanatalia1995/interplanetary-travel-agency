@@ -32,7 +32,7 @@ Copy `.env.example` to `.env`. Variables: `STORYBLOK_DELIVERY_API_TOKEN` (use th
 This is a client-rendered SPA. A single catch-all route renders every CMS page.
 
 - [src/main.tsx](src/main.tsx) calls `storyblokInit` with the token and region and the `apiPlugin`. It also holds the **component registry** that maps Storyblok block names to React components (`page`, `teaser`, `grid`, `feature`). It mounts a React Router `createBrowserRouter` with one route, `/*`.
-- [src/App.tsx](src/App.tsx) reads the splat param as the story slug (`home` for `/`). It fetches the story with `useStoryblok(slug, { version: 'draft' })` and renders `<StoryblokComponent blok={story.content} />`. Nested blocks render the same way and resolve through the registry.
+- [src/App.tsx](src/App.tsx) reads the splat param as the story slug (`home` for `/`). It fetches the story with `useStoryblok(slug, { version: getStoryblokVersion() })` and renders `<StoryblokComponent blok={story.content} />`. Nested blocks render the same way and resolve through the registry.
 - The site header is the Storyblok story `navigation` (content type `navigation_header`, Block Library group **Navigation**). [src/App.tsx](src/App.tsx) fetches it and renders [NavigationHeader](src/storyblok/navigation/NavigationHeader.tsx) above every page. It is sticky at the top. The language switcher stores the chosen Storyblok language code in [src/language.tsx](src/language.tsx), and `App.tsx` remounts and refetches stories when it changes. Language codes configured in the header must exist in the space's Settings > Internationalization.
 - [src/storyblok/](src/storyblok/) holds one React component per Storyblok block. Each receives its content as a `blok` prop.
 
@@ -40,7 +40,7 @@ To add a content type: create the block in Storyblok, add a component in `src/st
 
 Because routing is catch-all, new pages like planets, booking and company are Storyblok stories, not React Router routes. Add explicit routes only for non-CMS behavior such as a booking form.
 
-Rendering uses `version: 'draft'`. The Visual Editor needs the app served over HTTPS and the space's Visual Editor default environment set to `https://localhost:5173/`. The `home` story needs real path `/`.
+The Storyblok content version comes from `STORYBLOK_VERSION` (`draft` or `published`, default `published`; see [src/storyblok/config.ts](src/storyblok/config.ts)). The Visual Editor is detected by its `_storyblok` query param and always gets drafts. Stories must be published in Storyblok before they show with `published`. Use `draft` with the space's preview token. The Visual Editor needs the app served over HTTPS and the space's Visual Editor default environment set to `https://localhost:5173/`. The `home` story needs real path `/`.
 
 ## Deployment
 

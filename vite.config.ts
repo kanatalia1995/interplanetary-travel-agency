@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
 				env.STORYBLOK_DELIVERY_API_TOKEN,
 			),
 			'import.meta.env.STORYBLOK_REGION': JSON.stringify(env.STORYBLOK_REGION),
+			'import.meta.env.STORYBLOK_VERSION': JSON.stringify(env.STORYBLOK_VERSION),
 			'import.meta.env.STORYBLOK_API_BASE_URL': JSON.stringify(
 				env.STORYBLOK_API_BASE_URL,
 			),

@@ -4,6 +4,7 @@
 interface ImportMetaEnv {
 	readonly STORYBLOK_DELIVERY_API_TOKEN: string;
 	readonly STORYBLOK_REGION?: string;
+	readonly STORYBLOK_VERSION?: 'draft' | 'published';
 	readonly STORYBLOK_API_BASE_URL?: string;
 }
 
