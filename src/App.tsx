@@ -1,12 +1,13 @@
 import { StoryblokComponent, useStoryblok } from '@storyblok/react';
 import { useParams } from 'react-router';
 import { useLanguage } from './language';
+import { getStoryblokVersion } from './storyblok/config';
 import NavigationHeader from './storyblok/navigation/NavigationHeader';
 import type { NavigationHeaderBlok } from './storyblok/types';
 
 /** Fetches the shared navigation story and renders it above every page. */
 function SiteNavigation({ language }: { language: string }) {
-	const story = useStoryblok('navigation', { version: 'draft', language: language || undefined });
+	const story = useStoryblok('navigation', { version: getStoryblokVersion(), language: language || undefined });
 	if (!story?.content) {
 		return <div className="site-nav site-nav--loading" aria-hidden="true" />;
 	}
@@ -14,7 +15,7 @@ function SiteNavigation({ language }: { language: string }) {
 }
 
 function PageContent({ slug, language }: { slug: string; language: string }) {
-	const story = useStoryblok(slug, { version: 'draft', language: language || undefined });
+	const story = useStoryblok(slug, { version: getStoryblokVersion(), language: language || undefined });
 	if (!story?.content) {
 		return <div>Loading...</div>;
 	}
